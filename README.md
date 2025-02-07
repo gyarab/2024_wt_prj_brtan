@@ -14,3 +14,6 @@ Hlavní menu obsahuje odkazy na seznam nabídek a seznam lokalit.
 
 ## Wireframes
 ![realitni_databaze](./wireframes_realitni_db.png)
+
+## DB Schema
+![realitni_databaze](./IMG_8765.jpeg)
