@@ -1,7 +1,7 @@
 import httpx
 import json
 
-def fetch_exchange_rate():
+def exchange_rate():
     url = "https://www.cnb.cz/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/daily.txt"
     try:
         response = httpx.get(url)
@@ -18,11 +18,11 @@ def fetch_exchange_rate():
 def convert_currency(amount, rate, direction):
     if direction == "EUR->CZK":
         return amount * rate
-    elif direction == "CZK->EUR":
+    elif direction == "CZK->EUR":a
         return amount / rate
 
 def main():
-    rate = fetch_exchange_rate()
+    rate = exchange_rate()
     if rate is None:
         print("Nepodařilo se načíst aktuální kurz.")
         return
