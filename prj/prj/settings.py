@@ -55,8 +55,8 @@ ROOT_URLCONF = 'prj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [],  # Tento seznam zůstane prázdný, protože používáme APP_DIRS.
+        'APP_DIRS': True,  # Nastaveno na True, aby Django hledalo šablony v aplikacích
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -67,6 +67,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'prj.wsgi.application'
 

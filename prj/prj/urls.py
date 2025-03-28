@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.views.generic import TemplateView
-from main import views 
+from main import views  # Import funkcí z views.py
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('one/', views.one, name='one'),
-    path('two/', views.two, name='two'),
-    path('admin/', admin.site.urls),  # Tohle přidá admin rozhraní
+    path('', views.home, name='home'),  # Cesta pro domovskou stránku
+    path('detail/<int:id>/', views.detail, name='detail'),  # Cesta pro detail nemovitosti
+    path('filtrovani/', views.filtrovani, name='filtrovani'),  # Cesta pro filtrované nemovitosti
+    path('nabidky/', views.nabidky, name='nabidky'),  # Cesta pro zobrazení nabídek
+    path('admin/', admin.site.urls),  # Cesta pro admin rozhraní
 ]

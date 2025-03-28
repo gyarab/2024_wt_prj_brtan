@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <h1>Filtrace nemovitostí</h1>
+    <p>Vyberte si nemovitost z naší nabídky:</p>
+
+    <!-- Zobrazení nemovitostí s tlačítkem pro přesměrování na detail -->
+    {% for nemovitost in nemovitosti %}
+        <div>
+            <h3>{{ nemovitost.nazev }}</h3>
+            <p>{{ nemovitost.cena }} Kč</p>
+            <a href="{% url 'detail' nemovitost.id %}">
+                <button>Zobrazit detail</button>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
