@@ -9,13 +9,30 @@
     <title>Two Page</title>
 </head>
 <body>
-    <h1>
-        Two
-    </h1>
-    <img src="https://placehold.co/200x200" alt="obrazek">
+      <h1>{{ nemovitost.nazev }}</h1>
+      <p>{{ nemovitost.popis }}</p>
+      <p><strong>Cena:</strong> {{ nemovitost.cena }} Kč</p>
+      <p><strong>Lokalita:</strong> {{ nemovitost.lokalita.nazev }}</p>
     
+      <h2>Obrázky nemovitosti</h2>
+      <!-- Náhledový obrázek -->
+      {% if nemovitost.obrazek %}
+        <img src="{{ nemovitost.obrazek.url }}" alt="{{ nemovitost.nazev }}" class="img-fluid mb-3">
+      {% else %}
+        <p>Žádný náhledový obrázek.</p>
+      {% endif %}
     
-
+      <!-- Další obrázky -->
+      <div class="row">
+        {% for obrazek in nemovitost.obrazky.all %}
+          <div class="col-md-4">
+            <img src="{{ obrazek.obrazek.url }}" alt="Obrázek" class="img-fluid mb-3">
+          </div>
+        {% endfor %}
+      </div>
+    
+      <a href="{% url 'nabidky' %}" class="btn btn-secondary">Zpět na nabídky</a>
+    
 </body>
 </html>
 {% endblock %}

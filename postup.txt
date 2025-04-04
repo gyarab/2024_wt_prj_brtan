@@ -8,7 +8,7 @@ matyas.brtan.s@P1-16 MINGW64 /c/users
 $ cd matyas.brtan.s
 
 matyas.brtan.s@P1-16 MINGW64 /c/users/matyas.brtan.s
-$ cd Desktop
+$ cd Desktop;
 
 matyas.brtan.s@P1-16 MINGW64 /c/users/matyas.brtan.s/Desktop
 $ cd 2024_wt_prj_brtan

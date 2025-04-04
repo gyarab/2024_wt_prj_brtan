@@ -20,5 +20,6 @@ def filtrovani(request):
 
 # Funkce pro zobrazení nabídek nemovitostí
 def nabidky(request):
-    nabidky = Nemovitost.objects.all()  # Můžete upravit dle potřeby pro specifické nabídek
-    return render(request, 'main/nabidky.html', {'nabidky': nabidky})  # Předání seznamu nabídek do šablony
+    nemovitosti = Nemovitost.objects.all()
+    return render(request, 'main/nabidky.html', {'nemovitosti': nemovitosti})
+

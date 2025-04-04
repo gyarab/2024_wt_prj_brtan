@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main import views  # Import funkcí z views.py
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),  # Cesta pro domovskou stránku
@@ -24,4 +26,4 @@ urlpatterns = [
     path('filtrovani/', views.filtrovani, name='filtrovani'),  # Cesta pro filtrované nemovitosti
     path('nabidky/', views.nabidky, name='nabidky'),  # Cesta pro zobrazení nabídek
     path('admin/', admin.site.urls),  # Cesta pro admin rozhraní
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
