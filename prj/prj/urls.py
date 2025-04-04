@@ -24,6 +24,6 @@ urlpatterns = [
     path('', views.home, name='home'),  # Cesta pro domovskou stránku
     path('detail/<int:id>/', views.detail, name='detail'),  # Cesta pro detail nemovitosti
     path('filtrovani/', views.filtrovani, name='filtrovani'),  # Cesta pro filtrované nemovitosti
-    path('nabidky/', views.nabidky, name='nabidky'),  # Cesta pro zobrazení nabídek
+    path('nabidky/', views.nabidky_view, name='nabidky'),  # Cesta pro zobrazení nabídek
     path('admin/', admin.site.urls),  # Cesta pro admin rozhraní
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
