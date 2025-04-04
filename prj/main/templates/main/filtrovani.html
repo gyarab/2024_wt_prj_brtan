@@ -1,17 +1,33 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <h1>Filtrace nemovitostí</h1>
-    <p>Vyberte si nemovitost z naší nabídky:</p>
+  <h1>Filtrovat nabídky nemovitostí</h1>
+  
+  <form method="get" action="{% url 'filtrovani' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Filtruj</button>
+  </form>
 
-    <!-- Zobrazení nemovitostí s tlačítkem pro přesměrování na detail -->
-    {% for nemovitost in nemovitosti %}
-        <div>
-            <h3>{{ nemovitost.nazev }}</h3>
-            <p>{{ nemovitost.cena }} Kč</p>
-            <a href="{% url 'detail' nemovitost.id %}">
-                <button>Zobrazit detail</button>
-            </a>
+  {% if nemovitosti %}
+    <h2>Vyfiltrované nabídky:</h2>
+    <div class="row mt-3">
+      {% for nemovitost in nemovitosti %}
+        <div class="col-sm-6">
+          <div class="card">
+            {% if nemovitost.obrazek %}
+              <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}" height="400">
+            {% else %}
+              <img src="https://via.placeholder.com/400x400" class="card-img-top" alt="Bez obrázku" height="400">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ nemovitost.nazev }} <strong>{{ nemovitost.cena }} Kč</strong></h5>
+              <p class="card-text">{{ nemovitost.lokalita.nazev }}</p>
+              <a href="{% url 'detail' nemovitost.id %}" class="btn btn-primary">Bližší popis</a>
+            </div>
+          </div>
         </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
+  {% endif %}
 {% endblock %}
+

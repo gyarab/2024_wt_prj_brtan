@@ -2,3 +2,4 @@
 django
 httpx
 pyaml
+Pillow
