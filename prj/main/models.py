@@ -18,20 +18,25 @@ class MajitelNemovitosti(models.Model):
 
 
 class Lokalita(models.Model):
-    nazev = models.CharField(max_length=200)
-    adresa = models.CharField(max_length=300, blank=True, default="")
-    mesto = models.CharField(max_length=100, blank=True, default="")
-    psc = models.CharField(max_length=10, blank=True, null=True)
+    mesto = models.CharField("Město", max_length=100)
+    cast = models.CharField("Městská část", max_length=100, blank=True, null=True)
+
+    class Meta:
+        unique_together = ('mesto', 'cast')
+        verbose_name = "Lokalita"
+        verbose_name_plural = "Lokality"
+        ordering = ['mesto', 'cast']
 
     def __str__(self):
-        return self.nazev
+        return f"{self.mesto} – {self.cast}" if self.cast else self.mesto
+
 
 
 class Nemovitost(models.Model):
     nazev = models.CharField(max_length=300)
     cena = models.DecimalField(max_digits=10, decimal_places=2)
     popis = models.TextField(blank=True, default="")
-    lokalita = models.ForeignKey(Lokalita, on_delete=models.SET_NULL, null=True)
+    lokalita = models.ForeignKey(Lokalita, on_delete=models.CASCADE, verbose_name="Lokalita")
     majitel = models.ForeignKey(MajitelNemovitosti, on_delete=models.SET_NULL, null=True)
 
     

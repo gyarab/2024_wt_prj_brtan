@@ -4,9 +4,14 @@
 
     <h1>Vítejte na naší realitní stránce!</h1>
     <p>Prozkoumejte naše nabídky nemovitostí.</p>
-
-    <!-- Tlačítko pro přesměrování na filtraci -->
-    <a href="{% url 'filtrovani' %}">
-        <button>Filtrujte nemovitosti</button>
-    </a>
+    
+    <h2 class="text-center mt-5">Co hledáte?</h2>
+    <p class="text-center">Vyberte typ nemovitosti, kterou hledáte.</p>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{% url 'filtrovani' %}?typ=dum" class="btn btn-outline-primary mx-3 btn-lg">Domy</a>
+        <a href="{% url 'filtrovani' %}?typ=byt" class="btn btn-outline-primary mx-3 btn-lg">Byty</a>
+        <a href="{% url 'filtrovani' %}?typ=pozemek" class="btn btn-outline-primary mx-3 btn-lg">Pozemky</a>
+    </div>
+    
+    
 {% endblock %}

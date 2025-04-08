@@ -18,34 +18,60 @@ def detail(request, id):
 
 
 
-def filtrovani_view(request):
-    # Inicializujeme formulář
-    form = FiltrForm(request.GET)
 
-    # Načteme všechny nemovitosti
+def filtrovani_view(request):
+    # Defaultní hodnota pro filtr 'typ' z URL parametrů
+    typ_default = request.GET.get('typ', None)
+    
+    # Vytvoření formuláře s aktuálními GET daty, pokud jsou
+    form = FiltrForm(request.GET or None)
+
+    # Počáteční dotaz na všechna nemovitost
     nemovitosti = Nemovitost.objects.all()
 
-    # Pokud byl formulář odeslán a je validní, filtrujeme podle hodnot
+    # Filtrace podle GET parametrů
     if form.is_valid():
-        min_cena = form.cleaned_data.get('min_cena')
-        max_cena = form.cleaned_data.get('max_cena')
-        typ = form.cleaned_data.get('typ')
-        lokalita = form.cleaned_data.get('lokalita')
-        stav = form.cleaned_data.get('stav')
+        mesto = form.cleaned_data.get('mesto')
+        cast = form.cleaned_data.get('cast')
 
-        if min_cena:
-            nemovitosti = nemovitosti.filter(cena__gte=min_cena)
-        if max_cena:
-            nemovitosti = nemovitosti.filter(cena__lte=max_cena)
-        if typ:
-            nemovitosti = nemovitosti.filter(typ=typ)
-        if lokalita:
-            nemovitosti = nemovitosti.filter(lokalita=lokalita)
-        if stav:
-            nemovitosti = nemovitosti.filter(stav=stav)
+        # Filtrace podle města
+        if mesto:
+            nemovitosti = nemovitosti.filter(lokalita__mesto=mesto)
 
-    return render(request, 'main/filtrovani.html', {'form': form, 'nemovitosti': nemovitosti})
+        # Filtrace podle městské části
+        if cast:
+            nemovitosti = nemovitosti.filter(lokalita__cast=cast)
+    
+        # Další filtrace podle POST dat (pokud je požadováno)
+        if request.method == 'POST':
+            form = FiltrForm(request.POST)
+            if form.is_valid():
+                # Filtrace podle ceny
+                if form.cleaned_data['min_cena']:
+                    nemovitosti = nemovitosti.filter(cena__gte=form.cleaned_data['min_cena'])
 
+                if form.cleaned_data['max_cena']:
+                    nemovitosti = nemovitosti.filter(cena__lte=form.cleaned_data['max_cena'])
+
+                # Filtrace podle typu nemovitosti
+                if form.cleaned_data['typ']:
+                    nemovitosti = nemovitosti.filter(typ=form.cleaned_data['typ'])
+
+                # Filtrace podle lokality
+                if form.cleaned_data['lokalita']:
+                    nemovitosti = nemovitosti.filter(lokalita=form.cleaned_data['lokalita'])
+
+                # Filtrace podle stavu
+                if form.cleaned_data['stav']:
+                    nemovitosti = nemovitosti.filter(stav=form.cleaned_data['stav'])
+            else:
+                nemovitosti = None  # Pokud formulář není platný
+
+    # Vykreslení stránky s formulářem a výsledky
+    return render(request, 'main/filtrovani.html', {
+        'form': form,
+        'nemovitosti': nemovitosti if request.GET else None  # Zobrazení pouze při GET parametrech
+    })
 
 # Funkce pro zobrazení nabídek nemovitostí
 

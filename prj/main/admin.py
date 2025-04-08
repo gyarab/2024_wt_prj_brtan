@@ -13,10 +13,12 @@ class MajitelNemovitostiAdmin(admin.ModelAdmin):
     search_fields = ('klient__jmeno',)  # Možnost hledání podle jména klienta
 
 # Registrace administrátorské třídy pro model Lokalita
+
 class LokalitaAdmin(admin.ModelAdmin):
-    list_display = ('nazev', 'adresa', 'mesto', 'psc')  # Co se zobrazí v seznamu lokalit
-    search_fields = ('nazev', 'mesto', 'psc')  # Možnost hledání podle názvu, města nebo PSČ
-    list_filter = ('mesto',)  # Filtrování podle města
+    list_display = ['mesto', 'cast']
+    search_fields = ['mesto', 'cast']
+
+
 
 class ObrazekInline(admin.TabularInline):  # Pro více obrázků v adminu
     model = Obrazek
@@ -28,7 +30,7 @@ class NemovitostAdmin(admin.ModelAdmin):
     search_fields = ('nazev', 'popis')
     list_filter = ('cena', 'lokalita', 'majitel', 'typ', 'stav')
     inlines = [ObrazekInline]  # Možnost přidat více obrázků v adminu
-
+    autocomplete_fields = ['lokalita']
     def obrazek_preview(self, obj):
         if obj.obrazek:
             return format_html('<img src="{}" width="150" />', obj.obrazek.url)
