@@ -3,3 +3,4 @@ django
 httpx
 pyaml
 Pillow
+django-autocomplete-light

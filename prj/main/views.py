@@ -29,19 +29,21 @@ def filtrovani_view(request):
     # Počáteční dotaz na všechna nemovitost
     nemovitosti = Nemovitost.objects.all()
 
-    # Filtrace podle GET parametrů
+    form = FiltrForm(request.GET or None)
+    nemovitosti = Nemovitost.objects.all()
+
     if form.is_valid():
         mesto = form.cleaned_data.get('mesto')
         cast = form.cleaned_data.get('cast')
+        typ = form.cleaned_data.get('typ')
 
-        # Filtrace podle města
         if mesto:
-            nemovitosti = nemovitosti.filter(lokalita__mesto=mesto)
-
-        # Filtrace podle městské části
+            nemovitosti = nemovitosti.filter(lokalita__mesto=mesto.mesto)
         if cast:
-            nemovitosti = nemovitosti.filter(lokalita__cast=cast)
-    
+            nemovitosti = nemovitosti.filter(lokalita__cast=cast.cast)
+        if typ:
+            nemovitosti = nemovitosti.filter(typ=typ)
+
         # Další filtrace podle POST dat (pokud je požadováno)
         if request.method == 'POST':
             form = FiltrForm(request.POST)

@@ -19,11 +19,14 @@ from django.urls import path
 from main import views  # Import funkcí z views.py
 from django.conf import settings
 from django.conf.urls.static import static
-
+from main.autocomplete import MestoAutocomplete, CastAutocomplete
+from main import views
 urlpatterns = [
     path('', views.home, name='home'),  # Cesta pro domovskou stránku
     path('detail/<int:id>/', views.detail, name='detail'),  # Cesta pro detail nemovitosti
     path('filtrovani/', views.filtrovani_view, name='filtrovani'),  # Cesta pro filtrované nemovitosti
     path('nabidky/', views.nabidky_view, name='nabidky'),  # Cesta pro zobrazení nabídek
     path('admin/', admin.site.urls),  # Cesta pro admin rozhraní
+    path('autocomplete/mesto/', MestoAutocomplete.as_view(), name='mesto-autocomplete'),
+    path('autocomplete/cast/', CastAutocomplete.as_view(), name='cast-autocomplete'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

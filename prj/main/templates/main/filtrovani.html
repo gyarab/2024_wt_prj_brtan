@@ -3,6 +3,8 @@
 {% block content %}
   <h1 class="text-center mt-5">Filtrujte nemovitosti</h1>
   
+  {{ form.media }}
+
   <form method="post" class="mb-5">
       {% csrf_token %}
       <div class="row">
