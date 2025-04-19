@@ -1,19 +1,20 @@
 from dal import autocomplete
 from .models import Lokalita
 
-class MestoAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        qs = Lokalita.objects.order_by('mesto').distinct('mesto')
+class MestoAutocomplete(autocomplete.Select2ListView):
+    def get_list(self):
+        mesta = Lokalita.objects.values_list('mesto', flat=True).distinct()
         if self.q:
-            qs = qs.filter(mesto__icontains=self.q)
-        return qs
+            mesta = mesta.filter(mesto__icontains=self.q)
+        return list(mesta)
 
-class CastAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
+class CastAutocomplete(autocomplete.Select2ListView):
+    def get_list(self):
         qs = Lokalita.objects.all()
-        mesto = self.forwarded.get('mesto', None)
+        mesto = self.forwarded.get('mesto')
         if mesto:
             qs = qs.filter(mesto=mesto)
         if self.q:
             qs = qs.filter(cast__icontains=self.q)
-        return qs
+        casti = qs.values_list('cast', flat=True).distinct()
+        return list(casti)

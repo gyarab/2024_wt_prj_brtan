@@ -1,52 +1,74 @@
 {% extends 'main/base.html' %}
 
-{% block content %}
-  <h1 class="text-center mt-5">Filtrujte nemovitosti</h1>
-  
-  {{ form.media }}
+{% block extra_head %}
+    {{ form.media }}
 
-  <form method="post" class="mb-5">
-      {% csrf_token %}
-      <div class="row">
-          {% for field in form %}
-              <div class="col-md-4 mb-3">
-                  {{ field.label_tag }}
-                  {{ field }}
-              </div>
-          {% endfor %}
-      </div>
-      <div class="text-center">
-          <button type="submit" class="btn btn-success">Filtrovat</button>
-      </div>
-  </form>
-  
-  {% if nemovitosti %}
-      <hr>
-      <h4 class="mt-4">Výsledky:</h4>
-      <div class="row">
-          {% for nemovitost in nemovitosti %}
-              <div class="col-md-4 mb-4">
-                  <div class="card">
-                      {% if nemovitost.obrazek %}
-                          <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}">
-                      {% else %}
-                          <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Bez obrázku">
-                      {% endif %}
-                      <div class="card-body">
-                          <h5 class="card-title">{{ nemovitost.nazev }}</h5>
-                          <p>{{ nemovitost.cena }} Kč</p>
-                          <a href="{% url 'detail' nemovitost.id %}" class="btn btn-primary">Detail</a>
-                      </div>
-                  </div>
-              </div>
-          {% endfor %}
-      </div>
-  {% elif nemovitosti is not none %}
-      <p class="text-center mt-4">Žádné nemovitosti neodpovídají zadaným filtrům.</p>
-  {% endif %}
-  <div class="text-center mt-4">
-      <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na domovskou stránku</a>
-  </div>  
-  
+    <!-- Načteme jQuery před Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Inicializace Select2 pro město a městskou část
+            $('#id_mesto').select2({
+                placeholder: 'Vyberte město',
+                allowClear: true
+            });
+    
+            $('#id_cast').select2({
+                placeholder: 'Vyberte městskou část',
+                allowClear: true
+            });
+        });
+    </script>
 {% endblock %}
 
+{% block content %}
+<h1 class="text-center mt-5">Filtrujte nemovitosti</h1>
+
+<form method="get" class="mb-5">
+    {% csrf_token %}
+    <div class="row">
+        {% for field in form %}
+            <div class="col-md-4 mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success">Filtrovat</button>
+    </div>
+</form>
+
+{% if nemovitosti %}
+    <hr>
+    <h4 class="mt-4">Výsledky:</h4>
+    <div class="row">
+        {% for nemovitost in nemovitosti %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    {% if nemovitost.obrazek %}
+                        <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Bez obrázku">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ nemovitost.nazev }}</h5>
+                        <p>{{ nemovitost.cena }} Kč</p>
+                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-primary">Detail</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% elif nemovitosti is not none %}
+    <p class="text-center mt-4">Žádné nemovitosti neodpovídají zadaným filtrům.</p>
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na domovskou stránku</a>
+</div>
+
+{% endblock %}

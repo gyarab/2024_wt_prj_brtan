@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.validators import MinValueValidator
+
+
 
 class Klient(models.Model):
     jmeno = models.CharField(max_length=300)
@@ -32,7 +35,7 @@ class Lokalita(models.Model):
 
 class Nemovitost(models.Model):
     nazev = models.CharField(max_length=300)
-    cena = models.DecimalField(max_digits=10, decimal_places=2)
+    cena = models.IntegerField(validators=[MinValueValidator(0)])
     popis = models.TextField(blank=True, default="")
     lokalita = models.ForeignKey(Lokalita, on_delete=models.CASCADE, verbose_name="Lokalita")
     majitel = models.ForeignKey(MajitelNemovitosti, on_delete=models.SET_NULL, null=True)
