@@ -1,8 +1,8 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Nemovitost  # Přidání modelu Mesto a Cast
+from .models import Nemovitost
 from .forms import FiltrForm
-from dal import autocomplete
-from .models import Mesto, Cast
+
 
 def home(request):
     return render(request, 'main/home.html')
@@ -39,7 +39,11 @@ def filtrovani_view(request):
             nemovitosti = nemovitosti.filter(cena__gte=min_cena)
         if max_cena:
             nemovitosti = nemovitosti.filter(cena__lte=max_cena)
-        
+    #paginace rozdeleni vysledku do stranek
+    paginator = Paginator(nemovitosti, 9)  # 9 výsledků na stránku
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)    
+    
     return render(request, 'main/filtrovani.html', {
         'form': form,
         'nemovitosti': nemovitosti if request.GET else None,
@@ -52,25 +56,4 @@ def nabidky_view(request):
     return render(request, 'main/nabidky.html', {'nemovitosti': nemovitosti})
 
 # autocomplete.py nebo views.py
-class MestoAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        qs = Mesto.objects.all()  # Pokud používáš jiný model pro města, uprav název
 
-        # Pokud je vyhledávací dotaz, omezíme podle něj výsledky
-        if self.q:
-            qs = qs.filter(nazev__icontains=self.q)  # Použij správné pole pro název města
-
-        # Zajištění, že se města nezobrazují vícekrát (jedno město pouze jednou)
-        qs = qs.distinct('nazev')  # Pokud je pole pro název města jinak, uprav to
-        return qs
-
-
-class CastAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        qs = Cast.objects.all()
-        mesto = self.forwarded.get('mesto', None)
-        if mesto:
-            qs = qs.filter(mesto=mesto)
-        if self.q:
-            qs = qs.filter(cast__icontains=self.q)
-        return qs
