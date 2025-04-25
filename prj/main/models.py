@@ -19,27 +19,28 @@ class MajitelNemovitosti(models.Model):
     def __str__(self):
         return f"Majitel: {self.klient.jmeno}"
 
-
-class Lokalita(models.Model):
-    mesto = models.CharField(max_length=100, verbose_name='Město')
-    cast = models.CharField(max_length=100, verbose_name='Městská část', blank=True, null=True)
-
-    class Meta:
-        unique_together = ('mesto', 'cast')
-        ordering = ['mesto', 'cast']
-        verbose_name = 'Lokalita'
-        verbose_name_plural = 'Lokality'
+class Mesto(models.Model):
+    nazev = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f'{self.mesto} – {self.cast}' if self.cast else self.mesto
+        return self.nazev
+
+class Cast(models.Model):
+    nazev = models.CharField(max_length=100)
+    mesto = models.ForeignKey(Mesto, on_delete=models.CASCADE, related_name='casti')
+
+    def __str__(self):
+        return f"{self.nazev} ({self.mesto.nazev})"
+
+
 
 class Nemovitost(models.Model):
     nazev = models.CharField(max_length=300)
     cena = models.IntegerField(validators=[MinValueValidator(0)])
     popis = models.TextField(blank=True, default="")
-    lokalita = models.ForeignKey(Lokalita, on_delete=models.CASCADE, verbose_name="Lokalita")
     majitel = models.ForeignKey(MajitelNemovitosti, on_delete=models.SET_NULL, null=True)
-
+    mesto = models.ForeignKey(Mesto, on_delete=models.SET_NULL, null=True, blank=True)
+    cast = models.ForeignKey(Cast, on_delete=models.SET_NULL, null=True, blank=True)
     
     obrazek = models.ImageField(upload_to='nemovitosti/', blank=True, null=True)  # Náhledový obrázek
     dalsi_obrazky = models.ManyToManyField('Obrazek', blank=True, related_name='nemovitosti')   # Vztah pro více obrázků
@@ -76,3 +77,4 @@ class Transakce(models.Model):
 
     def __str__(self):
         return f"{self.klient.jmeno} - {self.nemovitost.nazev} - {self.typ_transakce} ({self.datum_transakce})"
+

@@ -30,8 +30,8 @@ urlpatterns = [
     path('nabidky/', views.nabidky_view, name='nabidky'),
 
     # Autocomplete pro formulář
-    path('autocomplete/mesto/', MestoAutocomplete.as_view(), name='mesto-autocomplete'),
-    path('autocomplete/cast/', CastAutocomplete.as_view(), name='cast-autocomplete'),
+    path('autocomplete/mesto/', MestoAutocomplete.as_view(), name='autocomplete-mesto'),
+    path('autocomplete/cast/', CastAutocomplete.as_view(), name='autocomplete-cast'),
 
     # Admin rozhraní
     path('admin/', admin.site.urls),

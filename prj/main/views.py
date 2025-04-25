@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Nemovitost  # Přidání modelu Mesto a Cast
 from .forms import FiltrForm
 from dal import autocomplete
-from .models import Lokalita
+from .models import Mesto, Cast
 
 def home(request):
     return render(request, 'main/home.html')
@@ -28,9 +28,9 @@ def filtrovani_view(request):
         max_cena = form.cleaned_data.get('max_cena')
 
         if mesto:
-            nemovitosti = nemovitosti.filter(lokalita__mesto=mesto)
+            nemovitosti = nemovitosti.filter(mesto=mesto)
         if cast:
-            nemovitosti = nemovitosti.filter(lokalita__cast=cast)
+            nemovitosti = nemovitosti.filter(cast=cast)
         if typ:
             nemovitosti = nemovitosti.filter(typ=typ)
         if stav:
@@ -39,11 +39,13 @@ def filtrovani_view(request):
             nemovitosti = nemovitosti.filter(cena__gte=min_cena)
         if max_cena:
             nemovitosti = nemovitosti.filter(cena__lte=max_cena)
-
+        
     return render(request, 'main/filtrovani.html', {
         'form': form,
         'nemovitosti': nemovitosti if request.GET else None,
     })
+
+
 
 def nabidky_view(request):
     nemovitosti = Nemovitost.objects.all()
@@ -52,20 +54,20 @@ def nabidky_view(request):
 # autocomplete.py nebo views.py
 class MestoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Lokalita.objects.all()
+        qs = Mesto.objects.all()  # Pokud používáš jiný model pro města, uprav název
 
         # Pokud je vyhledávací dotaz, omezíme podle něj výsledky
         if self.q:
-            qs = qs.filter(mesto__icontains=self.q)
+            qs = qs.filter(nazev__icontains=self.q)  # Použij správné pole pro název města
 
         # Zajištění, že se města nezobrazují vícekrát (jedno město pouze jednou)
-        qs = qs.distinct('mesto')  # Přidání distinct pro jedinečná města
+        qs = qs.distinct('nazev')  # Pokud je pole pro název města jinak, uprav to
         return qs
 
 
 class CastAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Lokalita.objects.all()
+        qs = Cast.objects.all()
         mesto = self.forwarded.get('mesto', None)
         if mesto:
             qs = qs.filter(mesto=mesto)

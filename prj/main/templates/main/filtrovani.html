@@ -36,6 +36,13 @@
             </div>
         {% endfor %}
     </div>
+    {% if form.errors %}
+    <ul class="errorlist">
+        {% for field, errors in form.errors.items %}
+            <li>{{ field }}: {{ errors|join:", " }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
     <div class="text-center">
         <button type="submit" class="btn btn-success">Filtrovat</button>

@@ -1,6 +1,6 @@
 from django import forms
 from dal import autocomplete
-from .models import Lokalita
+from .models import Mesto, Cast
 
 TYPY_NEMOVITOSTI = [
     ('byt', 'Byt'),
@@ -16,27 +16,29 @@ STAVY_NEMOVITOSTI = [
 
 class FiltrForm(forms.Form):
     # Získání unikátních měst
-    mesto_choices = set(Lokalita.objects.values_list('mesto', flat=True))
+    mesto_choices = set(Mesto.objects.values_list('nazev', flat=True))
+    cast_choices = set(Cast.objects.values_list('nazev', flat=True))
+
     
     # Získání unikátních městských částí, ale odstraníme hodnoty None
-    cast_choices = set(Lokalita.objects.values_list('cast', flat=True))
     cast_choices = [cast for cast in cast_choices if cast is not None]  # Filtrujeme None hodnoty
 
     # Město bude výběr s unikátními hodnotami
-    mesto = forms.ChoiceField(
-        choices=[('', 'Vyberte město')] + [(mesto, mesto) for mesto in sorted(mesto_choices)],
+    mesto = forms.ModelChoiceField(
+        queryset=Mesto.objects.all(),
         required=False,
-        label='Město',
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=autocomplete.ModelSelect2(url='autocomplete-mesto'),
+        label='Město'
     )
-
-    # Městská část bude výběr s unikátními hodnotami
-    cast = forms.ChoiceField(
-        choices=[('', 'Vyberte část')] + [(cast, cast) for cast in sorted(cast_choices)],
+    cast = forms.ModelChoiceField(
+        queryset=Cast.objects.all(),
         required=False,
-        label='Městská část',
-        widget=forms.Select(attrs={'class': 'form-control'}),
-    )
+        widget=autocomplete.ModelSelect2(
+            url='autocomplete-cast',
+            forward=['mesto'],  # tady je propojení
+        ),
+        label='Městská část'
+)
 
     typ = forms.ChoiceField(
         choices=[('', '---------')] + TYPY_NEMOVITOSTI,
@@ -61,6 +63,20 @@ class FiltrForm(forms.Form):
         label='Maximální cena',
         widget=forms.NumberInput(attrs={'placeholder': 'např. 5000000'})
     )
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        min_cena = cleaned_data.get('min_cena')
+        max_cena = cleaned_data.get('max_cena')
+
+        if min_cena and min_cena < 0:
+            self.add_error('min_cena', 'Cena nemůže být záporná.')
+
+        if max_cena and max_cena < 0:
+            self.add_error('max_cena', 'Cena nemůže být záporná.')
+
+        if min_cena and max_cena and min_cena > max_cena:
+            raise forms.ValidationError("Minimální cena nemůže být vyšší než maximální.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -72,7 +88,7 @@ class FiltrForm(forms.Form):
                 self.fields['cast'].initial = data.get('cast')
 
             # Získání unikátních měst
-        mesto_choices = set(Lokalita.objects.values_list('mesto', flat=True))
-            # Získání unikátních městských částí, ale odstraníme hodnoty None
-        cast_choices = set(Lokalita.objects.values_list('cast', flat=True))
+        mesto_choices = set(Mesto.objects.values_list('nazev', flat=True))
+        cast_choices = set(Cast.objects.values_list('nazev', flat=True))
         cast_choices = [cast for cast in cast_choices if cast is not None]  # Filtrujeme None hodnoty
+

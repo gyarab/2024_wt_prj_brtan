@@ -1,16 +1,16 @@
 from dal import autocomplete
-from .models import Lokalita
+from .models import Mesto, Cast
 
 class MestoAutocomplete(autocomplete.Select2ListView):
     def get_list(self):
-        mesta = Lokalita.objects.values_list('mesto', flat=True).distinct()
+        mesta = Mesto.objects.values_list('mesto', flat=True).distinct()
         if self.q:
             mesta = mesta.filter(mesto__icontains=self.q)
         return list(mesta)
 
 class CastAutocomplete(autocomplete.Select2ListView):
     def get_list(self):
-        qs = Lokalita.objects.all()
+        qs = Cast.objects.all()
         mesto = self.forwarded.get('mesto')
         if mesto:
             qs = qs.filter(mesto=mesto)
