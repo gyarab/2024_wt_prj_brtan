@@ -1,17 +1,133 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+<style>
+    .hero-section {
+        background-image: url('https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=1500&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 20px;
+        text-align: center;
+        color: white;
+        position: relative;
+    }
 
-    <h1>Vítejte na naší realitní stránce!</h1>
-    <p>Prozkoumejte naše nabídky nemovitostí.</p>
-    
-    <h2 class="text-center mt-5">Co hledáte?</h2>
-    <p class="text-center">Vyberte typ nemovitosti, kterou hledáte.</p>
-    <div class="d-flex justify-content-center mt-4">
-        <a href="{% url 'filtrovani' %}?typ=dum" class="btn btn-outline-primary mx-3 btn-lg">Domy</a>
-        <a href="{% url 'filtrovani' %}?typ=byt" class="btn btn-outline-primary mx-3 btn-lg">Byty</a>
-        <a href="{% url 'filtrovani' %}?typ=pozemek" class="btn btn-outline-primary mx-3 btn-lg">Pozemky</a>
+    .hero-overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 60px 20px;
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    .hero-section p {
+        font-size: 1.3rem;
+        margin-top: 15px;
+    }
+
+    .cta-button {
+        font-size: 1.2rem;
+        padding: 14px 28px;
+        margin: 10px;
+        border-radius: 8px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid transparent;
+        text-decoration: none;
+        background-color: white;
+        color: #333;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+
+    .btn-house {
+        border-color: #0d6efd;
+        color: #0d6efd;
+    }
+
+    .btn-house:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .btn-apartment {
+        border-color: #6610f2;
+        color: #6610f2;
+    }
+
+    .btn-apartment:hover {
+        background-color: #6610f2;
+        color: white;
+    }
+
+    .btn-land {
+        border-color: #198754;
+        color: #198754;
+    }
+
+    .btn-land:hover {
+        background-color: #198754;
+        color: white;
+    }
+
+    .section-heading {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-top: 60px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+</style>
+
+<!-- Hero sekce -->
+<div class="hero-section">
+    <div class="hero-overlay">
+        <h1>Vítejte na naší realitní stránce!</h1>
+        <p>Prozkoumejte nabídky nemovitostí podle vašich představ.</p>
+
+        <h2 class="mt-5">Co hledáte?</h2>
+        <div class="mt-4">
+            <a href="{% url 'filtrovani' %}?typ=dum" class="cta-button btn-house">🏠 Domy</a>
+            <a href="{% url 'filtrovani' %}?typ=byt" class="cta-button btn-apartment">🏢 Byty</a>
+            <a href="{% url 'filtrovani' %}?typ=pozemek" class="cta-button btn-land">🌳 Pozemky</a>
+        </div>
     </div>
-    
-    
+</div>
+
+<!-- Nejnovější nabídky -->
+<h2 class="section-heading">Nejnovější nabídky</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        {% for nemovitost in nove_nabidky %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    {% if nemovitost.obrazek %}
+                        <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Bez obrázku">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ nemovitost.nazev }}</h5>
+                        <p class="card-text">{{ nemovitost.cena|default:"Cena na dotaz" }} Kč</p>
+                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-outline-primary mt-auto">Zobrazit detail</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
