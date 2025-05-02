@@ -1,0 +1,10 @@
+- model: main.majitelnemovitosti
+  pk: 1
+  fields:
+    klient: 1
+    poznamky: ''
+- model: main.majitelnemovitosti
+  pk: 2
+  fields:
+    klient: 2
+    poznamky: ''

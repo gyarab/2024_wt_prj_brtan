@@ -15,30 +15,22 @@ STAVY_NEMOVITOSTI = [
 ]
 
 class FiltrForm(forms.Form):
-    # Získání unikátních měst
-    mesto_choices = set(Mesto.objects.values_list('nazev', flat=True))
-    cast_choices = set(Cast.objects.values_list('nazev', flat=True))
-
-    
-    # Získání unikátních městských částí, ale odstraníme hodnoty None
-    cast_choices = [cast for cast in cast_choices if cast is not None]  # Filtrujeme None hodnoty
-
-    # Město bude výběr s unikátními hodnotami
     mesto = forms.ModelChoiceField(
         queryset=Mesto.objects.all(),
         required=False,
         widget=autocomplete.ModelSelect2(url='autocomplete-mesto'),
         label='Město'
     )
+
     cast = forms.ModelChoiceField(
         queryset=Cast.objects.all(),
         required=False,
         widget=autocomplete.ModelSelect2(
             url='autocomplete-cast',
-            forward=['mesto'],  # tady je propojení
+            forward=['mesto']
         ),
         label='Městská část'
-)
+    )
 
     typ = forms.ChoiceField(
         choices=[('', '---------')] + TYPY_NEMOVITOSTI,
@@ -54,16 +46,14 @@ class FiltrForm(forms.Form):
 
     min_cena = forms.DecimalField(
         required=False,
-        label='Minimální cena',
-        widget=forms.NumberInput(attrs={'placeholder': 'např. 1000000'})
+        widget=forms.HiddenInput()
     )
 
     max_cena = forms.DecimalField(
         required=False,
-        label='Maximální cena',
-        widget=forms.NumberInput(attrs={'placeholder': 'např. 5000000'})
+        widget=forms.HiddenInput()
     )
-    
+
     def clean(self):
         cleaned_data = super().clean()
         min_cena = cleaned_data.get('min_cena')
@@ -77,18 +67,3 @@ class FiltrForm(forms.Form):
 
         if min_cena and max_cena and min_cena > max_cena:
             raise forms.ValidationError("Minimální cena nemůže být vyšší než maximální.")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if 'data' in kwargs:
-            data = kwargs['data']
-            if 'mesto' in data:
-                self.fields['mesto'].initial = data.get('mesto')
-            if 'cast' in data:
-                self.fields['cast'].initial = data.get('cast')
-
-            # Získání unikátních měst
-        mesto_choices = set(Mesto.objects.values_list('nazev', flat=True))
-        cast_choices = set(Cast.objects.values_list('nazev', flat=True))
-        cast_choices = [cast for cast in cast_choices if cast is not None]  # Filtrujeme None hodnoty
-

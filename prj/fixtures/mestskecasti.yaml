@@ -1,0 +1,25 @@
+- model: main.cast
+  pk: 1
+  fields:
+    nazev: Přední Kopanina
+    mesto: 1
+- model: main.cast
+  pk: 2
+  fields:
+    nazev: Braník
+    mesto: 1
+- model: main.cast
+  pk: 3
+  fields:
+    nazev: Modřany
+    mesto: 1
+- model: main.cast
+  pk: 4
+  fields:
+    nazev: Háje
+    mesto: 1
+- model: main.cast
+  pk: 5
+  fields:
+    nazev: Chodov
+    mesto: 1

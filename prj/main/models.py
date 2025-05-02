@@ -11,6 +11,9 @@ class Klient(models.Model):
     def __str__(self):
         return self.jmeno
 
+    class Meta:
+        verbose_name_plural = "Klienti"
+        ordering = ['jmeno']  # Seřazení podle jména klienta ve správě admina
 
 class MajitelNemovitosti(models.Model):
     klient = models.OneToOneField(Klient, on_delete=models.CASCADE)
@@ -18,6 +21,9 @@ class MajitelNemovitosti(models.Model):
 
     def __str__(self):
         return f"Majitel: {self.klient.jmeno}"
+    class Meta:
+        verbose_name_plural = "Majitelé nemovitostí"
+    
 
 class Mesto(models.Model):
     nazev = models.CharField(max_length=100, unique=True)
@@ -25,13 +31,19 @@ class Mesto(models.Model):
     def __str__(self):
         return self.nazev
 
+    class Meta:
+        verbose_name_plural = "Města"
+        ordering = ['nazev']
+
 class Cast(models.Model):
     nazev = models.CharField(max_length=100)
     mesto = models.ForeignKey(Mesto, on_delete=models.CASCADE, related_name='casti')
 
     def __str__(self):
         return f"{self.nazev} ({self.mesto.nazev})"
-
+    class Meta:
+        verbose_name_plural = "Městské části"
+        ordering = ['mesto', 'nazev']
 
 
 class Nemovitost(models.Model):
@@ -59,6 +71,9 @@ class Nemovitost(models.Model):
 
     def __str__(self):
         return f"{self.nazev} ({self.cena} Kč)"
+    class Meta:
+        verbose_name_plural = "Nemovitosti"
+        ordering = ['-id']  # Seřazení podle ID sestupně ve správě admina
 
 class Obrazek(models.Model):
     nemovitost = models.ForeignKey(Nemovitost, related_name='obrazky', on_delete=models.CASCADE)
@@ -67,7 +82,9 @@ class Obrazek(models.Model):
 
     def __str__(self):
         return f"Obrázek pro {self.nemovitost.nazev}"
-
+    class Meta:
+        verbose_name_plural = "Obrázky"
+        ordering = ['-id']  # Seřazení podle ID sestupně ve správě admina
 class Transakce(models.Model):
     klient = models.ForeignKey(Klient, on_delete=models.CASCADE)
     nemovitost = models.ForeignKey(Nemovitost, on_delete=models.CASCADE)
@@ -77,4 +94,5 @@ class Transakce(models.Model):
 
     def __str__(self):
         return f"{self.klient.jmeno} - {self.nemovitost.nazev} - {self.typ_transakce} ({self.datum_transakce})"
-
+    class Meta:
+        verbose_name_plural = "Transakce"

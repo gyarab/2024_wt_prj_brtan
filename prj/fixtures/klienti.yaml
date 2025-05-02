@@ -1,0 +1,14 @@
+- model: main.klient
+  pk: 1
+  fields:
+    jmeno: Matyas
+    email: matymatylp@gmail.com
+    telefon: '666420666'
+- model: main.klient
+  pk: 2
+  fields:
+    jmeno: FlipKing
+    email: flipking@gmail.com
+    telefon: '520656959'
+
+

@@ -1,0 +1,12 @@
+- model: main.mesto
+  pk: 1
+  fields:
+    nazev: Praha
+- model: main.mesto
+  pk: 2
+  fields:
+    nazev: Brno
+- model: main.mesto
+  pk: 3
+  fields:
+    nazev: Ostrava

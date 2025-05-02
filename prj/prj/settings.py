@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'dal',
     'dal_select2',
+    
 ]
 
 MIDDLEWARE = [

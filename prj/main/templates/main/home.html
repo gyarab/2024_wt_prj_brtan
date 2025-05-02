@@ -91,6 +91,44 @@
         margin-bottom: 30px;
         text-align: center;
     }
+
+    .carousel-wrapper {
+        max-width: 1000px;
+        margin: 60px auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .carousel-item img {
+        height: 500px;
+        object-fit: cover;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .footer-section {
+        background-color: #f8f9fa;
+        padding: 60px 20px;
+        text-align: center;
+        margin-top: 80px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .footer-section p {
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 700px;
+        margin: 0 auto;
+    }
 </style>
 
 <!-- Hero sekce -->
@@ -108,26 +146,43 @@
     </div>
 </div>
 
-<!-- Nejnovější nabídky -->
-<h2 class="section-heading">Nejnovější nabídky</h2>
-<div class="container">
-    <div class="row justify-content-center">
-        {% for nemovitost in nove_nabidky %}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100">
-                    {% if nemovitost.obrazek %}
-                        <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}">
-                    {% else %}
-                        <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Bez obrázku">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ nemovitost.nazev }}</h5>
-                        <p class="card-text">{{ nemovitost.cena|default:"Cena na dotaz" }} Kč</p>
-                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-outline-primary mt-auto">Zobrazit detail</a>
-                    </div>
+<!-- Zvýrazněný slider -->
+{% if nove_nabidky %}
+<div class="carousel-wrapper">
+    <div id="carouselNemovitosti" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
+        <div class="carousel-inner">
+            {% for nemovitost in nove_nabidky %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                {% if nemovitost.obrazek %}
+                    <img src="{{ nemovitost.obrazek.url }}" class="d-block w-100" alt="{{ nemovitost.nazev }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/1000x500" class="d-block w-100" alt="Bez obrázku">
+                {% endif %}
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>{{ nemovitost.nazev }}</h5>
+                    <p>{{ nemovitost.cena }} Kč</p>
+                    <a href="{% url 'detail' nemovitost.id %}" class="btn btn-sm btn-light">Zobrazit detail</a>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNemovitosti" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselNemovitosti" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
     </div>
 </div>
+{% endif %}
+
+<!-- Doplňková sekce dole -->
+<div class="footer-section">
+    <h3>Proč si vybrat právě nás?</h3>
+    <p>
+        Nabízíme široký výběr nemovitostí v celé České republice. S námi najdete svůj vysněný domov rychle, pohodlně a bezpečně.
+        Sledujte pravidelně nové nabídky a nenechte si nic ujít!
+    </p>
+</div>
+
 {% endblock %}

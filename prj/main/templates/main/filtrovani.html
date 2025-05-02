@@ -3,13 +3,93 @@
 {% block extra_head %}
     {{ form.media }}
 
-    <!-- Načteme jQuery před Select2 -->
+    <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- ionRangeSlider -->
+    <link href="https://cdn.jsdelivr.net/npm/ion-rangeslider@2.3.1/css/ion.rangeSlider.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/ion-rangeslider@2.3.1/js/ion.rangeSlider.min.js"></script>
+
+    <style>
+        .irs-bar,
+        .irs-bar-edge,
+        .irs-single,
+        .irs-from,
+        .irs-to {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 38px;
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+        }
+
+        .select2-selection__rendered {
+            line-height: 24px;
+        }
+
+        .select2-selection__arrow {
+            height: 100%;
+        }
+        body {
+        background-color: #f9f9f9;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 12px;
+    }
+
+    .card:hover {
+        transform: scale(1.01);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-outline-primary {
+        border-radius: 30px;
+    }
+
+    .btn-success, .btn-secondary {
+        border-radius: 30px;
+        padding: 10px 30px;
+    }
+
+    .select2-container--default .select2-selection--single {
+        border-radius: 8px;
+        border-color: #ced4da;
+    }
+
+    .form-control, .select2-selection {
+        border-radius: 8px !important;
+    }
+
+    .pagination .page-link {
+        border-radius: 10px;
+    }
+
+    .form-label {
+        margin-bottom: 0.4rem;
+    }
+
+    input[type="text"], select {
+        min-height: 38px;
+    }
+    </style>
+
     <script>
-        $(document).ready(function() {
-            // Inicializace Select2 pro město a městskou část
+        const minCena = {{ form.min_cena.value|default:0 }};
+        const maxCena = {{ form.max_cena.value|default:100000000 }};
+
+        $(document).ready(function () {
             $('#id_mesto').select2({
                 placeholder: 'Vyberte město',
                 allowClear: true
@@ -19,33 +99,59 @@
                 placeholder: 'Vyberte městskou část',
                 allowClear: true
             });
+
+            $("#id_cena_slider").ionRangeSlider({
+                type: "double",
+                min: 0,
+                max: 100000000,
+                from: minCena,
+                to: maxCena,
+                step: 100000,
+                prefix: "Kč ",
+                grid: true,
+                hide_min_max: false,
+                onFinish: function (data) {
+                    $('#id_min_cena').val(data.from);
+                    $('#id_max_cena').val(data.to);
+                }
+            });
         });
     </script>
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center mt-5">Filtrujte nemovitosti</h1>
+<h1 class="text-center mt-5 mb-4">Filtrujte nemovitosti</h1>
 
 <form method="get" class="mb-5">
     {% csrf_token %}
     <div class="row">
         {% for field in form %}
-            <div class="col-md-4 mb-3">
-                {{ field.label_tag }}
-                {{ field }}
-            </div>
+            {% if field.name != 'min_cena' and field.name != 'max_cena' %}
+                <div class="col-md-4 mb-4">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endif %}
         {% endfor %}
+
+        <div class="col-md-12 mb-4">
+            <label for="id_cena_slider" class="form-label fw-bold">Cena:</label>
+            <input type="text" id="id_cena_slider" name="cena_slider" />
+            <input type="hidden" id="id_min_cena" name="min_cena" value="{{ form.min_cena.value|default:0 }}">
+            <input type="hidden" id="id_max_cena" name="max_cena" value="{{ form.max_cena.value|default:100000000 }}">
+        </div>
     </div>
+
     {% if form.errors %}
-    <ul class="errorlist">
-        {% for field, errors in form.errors.items %}
-            <li>{{ field }}: {{ errors|join:", " }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="errorlist">
+            {% for field, errors in form.errors.items %}
+                <li>{{ field }}: {{ errors|join:", " }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 
     <div class="text-center">
-        <button type="submit" class="btn btn-success">Filtrovat</button>
+        <button type="submit" class="btn btn-success px-4">Filtrovat</button>
     </div>
 </form>
 
@@ -53,23 +159,23 @@
     <div class="row">
         {% for nemovitost in nemovitosti %}
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card shadow-sm h-100">
                     {% if nemovitost.obrazek %}
                         <img src="{{ nemovitost.obrazek.url }}" class="card-img-top" alt="{{ nemovitost.nazev }}">
                     {% else %}
                         <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Bez obrázku">
                     {% endif %}
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ nemovitost.nazev }}</h5>
-                        <p>{{ nemovitost.cena }} Kč</p>
-                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-primary">Detail</a>
+                        <p class="mb-3"><strong>{{ nemovitost.cena }} Kč</strong></p>
+                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-outline-primary mt-auto">Detail</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <nav aria-label="Page navigation">
+    <nav aria-label="Stránkování" class="mt-4">
         <ul class="pagination justify-content-center">
             {% if nemovitosti.has_previous %}
                 <li class="page-item">
@@ -83,20 +189,15 @@
                     </a>
                 </li>
             {% endif %}
-    
-            <!-- Stránky mezi první a poslední -->
+
             {% for i in nemovitosti.paginator.page_range %}
                 {% if i == nemovitosti.number %}
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">{{ i }}</span>
-                    </li>
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
                 {% else %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
                 {% endif %}
             {% endfor %}
-    
+
             {% if nemovitosti.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ nemovitosti.next_page_number }}" aria-label="Next">
@@ -118,5 +219,4 @@
 <div class="text-center mt-4">
     <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na domovskou stránku</a>
 </div>
-
 {% endblock %}

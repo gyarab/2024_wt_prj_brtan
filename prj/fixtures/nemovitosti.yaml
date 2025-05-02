@@ -1,0 +1,151 @@
+- model: main.nemovitost
+  pk: 3
+  fields:
+    nazev: Prodej rodinného domu 175 m², pozemek 423 m² Dostálova, Praha - Modřany
+    cena: 25950001
+    popis: "RK MoWio Vám představuje řadový rodinný dům na prodej!\r\nNámi nabízený
+      dům v ulici Dostálova na Praze 12, v lokalitě Modřany, má dispozici 5+kk s podlahovou
+      plochou 175 m2, terasou (12,9 m2) a zahradou.\r\n\r\nHlavní dveře vedou do prostorné,
+      prosvětlené předsíně navazující na halu se vstupem do obývacího pokoje. Obývací
+      pokoj je srdcem domácnosti, jeho součástí je kuchyňský kout a praktická, příjemná
+      jídelní část, volně přecházející do venkovní terasy s posezením a zahradou.
+      Zde je značnou výhodou elektricky ovládané zastřešení terasy, díky kterému si
+      můžete užívat odpočinku na terase i za nepříznivého počasí. Při jasných dnech
+      Vás proti paprskům slunce ochrání proti sluneční roleta. Přízemí domu disponuje
+      velkou technickou místností s prádelnou/sušárnou, samostatnou toaletou a menším
+      skladem pod schody. Vstupní hala je přímo propojena s garáží.\r\n\r\nPrvní patro
+      tvoří celkem 4 ložnice. Hlavní ložnice má privátní šatnu s přímým osvětlením
+      a vlastní koupelnu, vybavenou sprchou, umyvadlem a toaletou. Všechny tři další
+      ložnice disponují příjemnými pravidelnými tvary s bohatě dimenzovanými úložnými
+      prostory. Na patře je také velká koupelna, s vanou, sprchovým koutem, dvou-umyvadlem
+      a toaletou.\r\n\r\nSoučástí vybavení jsou externí žaluzie, alarm s dálkovým
+      ovládáním a nabíječka pro elektroauta.\r\n\r\nOkolo domu se rozkládá zahrada
+      o výměře 312 m2 s možností grilování, zahradním domkem, hracím koutkem pro děti
+      a výhledem na přilehlý les a okolní zeleň.\r\n\r\nPo koupi této nemovitosti
+      se Vás již nebude týkat nedostatek parkovacích stání. Kromě garáže pro jedno
+      osobní vozidlo uvnitř domu jsou totiž k dispozici další dvě parkovací místa
+      před domem a přístřešek vedle domu poskytuje parkovací místo pro čtvrté vozidlo.\r\n\r\nChcete
+      žít v příjemné lokalitě u lesa, ale stále zůstat v Praze? Tato nemovitost je
+      ideální pro Vás! Oblast se pyšní skvělou dopravní dostupností (zastávka autobusu
+      Do Koutů s přímými spoji na stanici metra C – Budějovická, rychlý nájezd na
+      Pražský okruh a dálnici D1), základní občanskou vybavenost naleznete v blízkém
+      okolí. K relaxaci v zeleni lze vyrazit do lesa v Komořanech a na Točné.\r\n\r\nMěsíční
+      poplatky cca 1.527,- Kč/měsíc (odpad, vodné a stočné), elektřina cca 2.000,-
+      Kč/měsíc, plyn cca 3.200,- Kč/měsíc.\r\n\r\nRealitní kancelář nemá k dispozici
+      energetický štítek, proto uvádíme podle vyhlášky 78/2013 Sb. třídu energetické
+      náročnosti budovy G."
+    majitel: 1
+    mesto: 1
+    cast: 3
+    obrazek: nemovitosti/175b5dc_TqLtdRA.webp
+    rozloha: 175
+    typ: dum
+    stav: dobry
+    dalsi_obrazky:
+    - 7
+- model: main.nemovitost
+  pk: 4
+  fields:
+    nazev: Prodej bytu 3+kk 70 m² Jílovská, Praha - Braník
+    cena: 8620000
+    popis: "Nabízím kompletně zrekonstruovaný prostorný byt 3+kk s prostorným obývacím
+      pokojem, s kuchyní na míru, s krásnou koupelnou včetně podlahového topení. Byt
+      je ve standardu novostavby, je umístěn v 10. patře kompletně revitalizovaného
+      domu a je pouze 3 minuty chůze od Novodvorská Plaza.\r\n\r\nByt vypadá přesně
+      jak vidíte na fotografiích, nejedná se o vizualizaci. Byt je dispozičně velmi
+      dobře řešený s dostatkem úložných prostorů, prostorným obývacím pokojem, s kuchyní,
+      kde je na míru vyrobená linka včetně spotřebičů. Dále se dvěma ložnicemi, prostornou
+      koupelnou s vanou, podlahovým topením a přípravou na pračku. Byt má velkou zasklenou
+      lodžii a komoru na patře. Byt je velmi tichý díky 10. patru (z 11.) a perfektním
+      výhledem.\r\n\r\nDispozice bytu 3+kk:\r\n- 2x plnohodnotná ložnice \r\n- Obývací
+      pokoj\r\n- Kuchyně s linkou na míru a spotřebiči\r\n- Vstupní chodba\r\n- Koupelna
+      s vanou a podlahovým topením\r\n- Příprava na pračku v koupelně\r\n- WC\r\n-
+      Lodžie\r\n- Komora \r\n\r\nV kompletní rekonstrukci ve standardu novostavby
+      je zahrnuto:\r\n- nová kuchyňská linka vyrobena na míru se spotřebiči (značková
+      elektrická trouba, myčka, indukční deska, digestoř, osvětlení, dřez)\r\n- celková
+      výměna elektroinstalačních rozvodů v mědi\r\n- nové osvětlení bytu Linescape
+      Mezzo Premium 8 \r\n- kompletní úprava povrchů stěn\r\n- nové zárubně a dveře
+      (dřevěné)\r\n- nová plastová okna v celém bytě\r\n- nivelace podlah a nová vinylová
+      podlaha\r\n- špičková podlaha SPC Floor Concept Dub Rustic 5-star\r\n- velkoformátový
+      obklad zn. Grey Premium Selection\r\n- nová sanita (vana, umyvadlo, skříňka,
+      toaleta)\r\n- sádrové omítky a SDK podhled v celém bytě\r\n- příprava na pračku\r\n
+      \r\nCo charakterizuje bytový dům:\r\n- Dům je velmi dobře spravován SVJ s velkým
+      zaměřením na čisté, klidné a bezpečné bydlení.\r\n- Dům je po celkové revitalizaci.
+      Je kompletně zateplený a samozřejmostí jsou plastová okna, kamerový systém,
+      vstupy na čipy.\r\n- Zrekonstruované jsou i společné prostory a výtahy.\r\n-
+      Ve společných prostorách je kamerový systém.\r\n \r\nVelkou výhodou je kompletní
+      občanská vybavenost, blízkost Novodvorská Plaza (3 minuty chůze), bezproblémové
+      parkování, dále blízkost rozsáhlého parku a zeleně, obchodů, hřiště, a mnoha
+      sportovišť (skatepark, parkurové a workoutové hřiště, atd.). Zároveň jste autem
+      za pár minut na městském okruhu. \r\n\r\nBudu se těšit na osobní schůzku při
+      prohlídce. Pro sjednání termínu prohlídky, prosím, vyplňte formulář níže. \r\n
+      \r\nProsím o kontaktování jenom přímé zájemce, a ne realitní kanceláře. Děkuji
+      za respektování."
+    majitel: 1
+    mesto: 1
+    cast: 2
+    obrazek: nemovitosti/e470.webp
+    rozloha: 70
+    typ: byt
+    stav: novostavba
+    dalsi_obrazky: []
+- model: main.nemovitost
+  pk: 5
+  fields:
+    nazev: Prodej zahrady 926 m² Do roklí, Praha - Přední Kopanina
+    cena: 2490000
+    popis: "Dovoluji si Vám nabídnout pozemek o celkové výměře 926 m2, kterou tvoří
+      zastavěná plocha 19 m2, jejíž součástí je chatka, a zahrada 907 m2.\r\nCelý
+      pozemek je oplocen pletivovým plotem s vjezdovou bránou.\r\nChatka je je v udržovaném
+      stavu, částečně podsklepena, a vyžaduje rekonstrukci.\r\nV bezprostřední blízkosti
+      se nachází přírodní památka Opukový lom, jehož jedinečnost spočívá v tom, že
+      se jedná o jediný větší odkryv opuk bělohorského souvrství na území Prahy.\r\nNa
+      pozemku není možné vystavět novou stavbu, pouze udržovat stávající objekty.\r\nJako
+      zdroj vody je sdílená kopaná studna, záchod je řešen suchým typem na pozemku.\r\nPozemek
+      je velmi dobře dostupný jak vlastním autem nebo MHD.\r\nÚP zahrnuje tuto oblast
+      ve funkční ploše NL - louky a pastviny.\r\nHlavní využití: Travní porosty.\r\nPřípustné
+      využití:\r\nSolitérní porosty a porosty dřevin. Drobné vodní plochy, cyklistické
+      stezky, jezdecké stezky, pěší komunikace a prostory, komunikace účelové, sloužící
+      stavbám a zařízením uspokojujícím potřeby plochy vymezené daným způsobem využití.\r\nPodmíněně
+      přípustné využití:\r\nDopravní a technická infrastruktura.\r\nStavby a zařízení
+      pro provoz a údržbu, související s hlavním a přípustným využitím.\r\nRevitalizace
+      vodních toků a ploch za účelem posílení přírodní a biologické funkce a přirozeného
+      rozlivu.\r\nPro podmíněně přípustné využití platí, že nedojde k znehodnocení
+      nebo ohrožení využitelnosti dotčených pozemků\r\nNepřípustné využití:\r\nNepřípustné
+      je využití neslučitelné s hlavním a přípustným využitím, které je v rozporu
+      s podmínkami a limity stanovenými v dané lokalitě nebo je jiným způsobem v rozporu
+      s cíli a úkoly územního plánování.\r\nV případě zájmu o prohlídku mě neváhejte
+      kontaktovat.\r\nDěkuji a těším se na Vás. :-)"
+    majitel: 2
+    mesto: 1
+    cast: 1
+    obrazek: nemovitosti/a60e.webp
+    rozloha: 926
+    typ: pozemek
+    stav: dobry
+    dalsi_obrazky: []
+- model: main.nemovitost
+  pk: 6
+  fields:
+    nazev: Prodej bytu 2+kk 40 m² Zdiměřická, Praha - Chodov
+    cena: 5290000
+    popis: "Nabízíme k prodeji světlý byt 2+kk o ploše 40 m² v nejvyšším 13. podlaží
+      zrekonstruovaného panelového domu na Praze 4 – Chodov. Díky umístění v posledním
+      patře poskytuje krásný výhled a maximální soukromí.\r\n\r\nHlavní výhody bytu:\r\n✅
+      Skvělá lokalita – jen pár minut pěšky od metra C Opatov\r\n✅ Maximální soukromí
+      – poslední patro, žádní sousedi nad vámi\r\n✅ Proběhla kompletní rekonstrukce
+      elektřiny, koupelny se zděným jádrem a kuchyně\r\n✅ Orientace na jih – dostatek
+      světla po celý den\r\n✅ Bezproblémové parkování – přímo před domem nebo na blízkém
+      hlídaném parkovišti\r\n✅ Sklep v ceně\r\n\r\nV blízkosti bytu najdete školy,
+      obchody, restaurace i zeleň pro relaxaci.\r\nByt je v družstevním vlastnictví,
+      anuita je splacena. Financování hypotékou je možné pouze se zástavou jiné nemovitosti.\r\n\r\nChcete
+      se podívat osobně? Napište mi a domluvíme si prohlídku!"
+    majitel: 1
+    mesto: 1
+    cast: 5
+    obrazek: nemovitosti/ae18.webp
+    rozloha: 40
+    typ: byt
+    stav: dobry
+    dalsi_obrazky: []
+

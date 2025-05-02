@@ -1,0 +1,66 @@
+- model: main.obrazek
+  pk: 7
+  fields:
+    nemovitost: 3
+    obrazek: nemovitosti/175ffbb_7L3XYzL.webp
+    popis: null
+- model: main.obrazek
+  pk: 8
+  fields:
+    nemovitost: 4
+    obrazek: nemovitosti/5b7c.webp
+    popis: null
+- model: main.obrazek
+  pk: 9
+  fields:
+    nemovitost: 4
+    obrazek: nemovitosti/b516.webp
+    popis: null
+- model: main.obrazek
+  pk: 10
+  fields:
+    nemovitost: 4
+    obrazek: nemovitosti/ec99.webp
+    popis: null
+- model: main.obrazek
+  pk: 11
+  fields:
+    nemovitost: 4
+    obrazek: nemovitosti/3c9d.webp
+    popis: null
+- model: main.obrazek
+  pk: 12
+  fields:
+    nemovitost: 5
+    obrazek: nemovitosti/525b.webp
+    popis: null
+- model: main.obrazek
+  pk: 13
+  fields:
+    nemovitost: 5
+    obrazek: nemovitosti/f82b.webp
+    popis: null
+- model: main.obrazek
+  pk: 14
+  fields:
+    nemovitost: 5
+    obrazek: nemovitosti/1bee.webp
+    popis: null
+- model: main.obrazek
+  pk: 15
+  fields:
+    nemovitost: 6
+    obrazek: nemovitosti/1ad5.webp
+    popis: null
+- model: main.obrazek
+  pk: 16
+  fields:
+    nemovitost: 6
+    obrazek: nemovitosti/907c.webp
+    popis: null
+- model: main.obrazek
+  pk: 17
+  fields:
+    nemovitost: 6
+    obrazek: nemovitosti/4d3f.webp
+    popis: null

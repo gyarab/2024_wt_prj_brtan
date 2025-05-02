@@ -5,8 +5,9 @@ from .forms import FiltrForm
 
 
 def home(request):
-    nove_nabidky = Nemovitost.objects.order_by('-id')[:3]
+    nove_nabidky = Nemovitost.objects.order_by('-id')[:5]
     return render(request, 'main/home.html', {'nove_nabidky': nove_nabidky})
+
 
 def detail(request, id):
     try:
