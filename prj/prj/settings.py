@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'main',
     'dal',
     'dal_select2',
-    
+    'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [

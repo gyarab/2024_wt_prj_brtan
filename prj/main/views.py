@@ -48,7 +48,7 @@ def filtrovani_view(request):
     
     return render(request, 'main/filtrovani.html', {
         'form': form,
-        'nemovitosti': nemovitosti if request.GET else None,
+        'nemovitosti': page_obj,
     })
 
 

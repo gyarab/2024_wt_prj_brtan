@@ -19,6 +19,8 @@ $ cd prj
 matyas.brtan.s@P1-16 MINGW64 /c/users/matyas.brtan.s/Desktop/2024_wt_prj (main)
 $ py -3 -m venv venv
 
+$ source ./venv/Scripts/activate
+
 matyas.brtan.s@P1-16 MINGW64 /c/users/matyas.brtan.s/Desktop/2024_wt_prj (main)
 $ ./manage.py runserver
 

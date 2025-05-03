@@ -1,38 +1,69 @@
 {% extends 'main/base.html' %}
+{% load humanize %}
+{% load custom_filters %}
+
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Page</title>
-</head>
-<body>
-      <h1>{{ nemovitost.nazev }}</h1>
-      <p>{{ nemovitost.popis }}</p>
-      <p><strong>Cena:</strong> {{ nemovitost.cena }} Kč</p>
-      <p><strong>Lokalita:</strong> {{ nemovitost.lokalita.nazev }}</p>
-    
-      <h2>Obrázky nemovitosti</h2>
-      <!-- Náhledový obrázek -->
-      {% if nemovitost.obrazek %}
-        <img src="{{ nemovitost.obrazek.url }}" alt="{{ nemovitost.nazev }}" class="img-fluid mb-3">
-      {% else %}
-        <p>Žádný náhledový obrázek.</p>
-      {% endif %}
-    
-      <!-- Další obrázky -->
-      <div class="row">
-        {% for obrazek in nemovitost.obrazky.all %}
-          <div class="col-md-4">
-            <img src="{{ obrazek.obrazek.url }}" alt="Obrázek" class="img-fluid mb-3">
+<div class="container my-5">
+    <!-- Název a popis -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">{{ nemovitost.nazev }}</h2>
+            <p class="card-text">{{ nemovitost.popis|linebreaks }}</p>
+            <hr>
+            <p><strong>Cena:</strong> {{ nemovitost.cena|cz_intcomma }} Kč</p>
+            
+            <p><strong>Lokalita:</strong> {{ nemovitost.lokalita.nazev }}</p>
+        </div>
+    </div>
+
+    <!-- Náhledový obrázek -->
+    {% if nemovitost.obrazek %}
+        <img src="{{ nemovitost.obrazek.url }}" alt="{{ nemovitost.nazev }}" class="img-fluid mb-4 rounded shadow-sm">
+    {% endif %}
+
+    <!-- Fotogalerie -->
+    {% if nemovitost.obrazky.all %}
+        <h4 class="mb-3">Fotogalerie</h4>
+        <div class="row g-3">
+            {% for obrazek in nemovitost.obrazky.all %}
+                <div class="col-md-4">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-bs-slide-to="{{ forloop.counter0 }}">
+                        <img src="{{ obrazek.obrazek.url }}" class="img-fluid rounded shadow-sm" alt="Obrázek">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Modal s carouselem -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark">
+          <div class="modal-body p-0">
+            <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for obrazek in nemovitost.obrazky.all %}
+                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ obrazek.obrazek.url }}" class="d-block w-100" alt="Obrázek">
+                  </div>
+                {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+            </div>
           </div>
-        {% endfor %}
+        </div>
       </div>
-    
-      <a href="{% url 'nabidky' %}" class="btn btn-secondary">Zpět na nabídky</a>
-    
-</body>
-</html>
+    </div>
+
+    <!-- Zpět tlačítko -->
+    <div class="text-center mt-5">
+        <a href="{% url 'nabidky' %}" class="btn btn-outline-secondary px-4 py-2 rounded-pill">← Zpět na nabídky</a>
+    </div>
+</div>
 {% endblock %}

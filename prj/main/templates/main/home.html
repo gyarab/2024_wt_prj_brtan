@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
-
+{% load humanize %}
+{% load custom_filters %}
 {% block content %}
 <style>
     .hero-section {
@@ -160,7 +161,7 @@
                 {% endif %}
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ nemovitost.nazev }}</h5>
-                    <p>{{ nemovitost.cena }} Kč</p>
+                    <p>{{ nemovitost.cena|cz_intcomma }} Kč</p>
                     <a href="{% url 'detail' nemovitost.id %}" class="btn btn-sm btn-light">Zobrazit detail</a>
                 </div>
             </div>
