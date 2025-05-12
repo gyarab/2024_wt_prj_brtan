@@ -1,6 +1,6 @@
 from django import forms
 from dal import autocomplete
-from .models import Mesto, Cast
+from .models import Mesto, Cast, Obrazek
 
 TYPY_NEMOVITOSTI = [
     ('byt', 'Byt'),
@@ -53,6 +53,7 @@ class FiltrForm(forms.Form):
         required=False,
         widget=forms.HiddenInput()
     )
+    
 
     def clean(self):
         cleaned_data = super().clean()

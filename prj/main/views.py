@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Nemovitost
+from .models import Nemovitost, Mesto, Cast
 from .forms import FiltrForm
 
 
@@ -18,6 +18,7 @@ def detail(request, id):
 
 def filtrovani_view(request):
     form = FiltrForm(request.GET or None)
+    form.fields['cast'].queryset = Cast.objects.select_related('mesto').all()
 
     nemovitosti = Nemovitost.objects.all()
 
@@ -56,6 +57,4 @@ def filtrovani_view(request):
 def nabidky_view(request):
     nemovitosti = Nemovitost.objects.all()
     return render(request, 'main/nabidky.html', {'nemovitosti': nemovitosti})
-
-# autocomplete.py nebo views.py
 
