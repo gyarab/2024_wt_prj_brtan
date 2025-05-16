@@ -8,3 +8,8 @@
   fields:
     klient: 2
     poznamky: ''
+- model: main.majitelnemovitosti
+  pk: 3
+  fields:
+    klient: 3
+    poznamky: žebrák

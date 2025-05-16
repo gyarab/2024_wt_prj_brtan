@@ -10,5 +10,9 @@
     jmeno: FlipKing
     email: flipking@gmail.com
     telefon: '520656959'
-
-
+- model: main.klient
+  pk: 3
+  fields:
+    jmeno: Vojtìch Vybíral
+    email: premiumrobloxog@gmail.com
+    telefon: '739112021'

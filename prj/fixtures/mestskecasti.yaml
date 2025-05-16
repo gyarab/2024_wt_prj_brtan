@@ -1,25 +1,55 @@
 - model: main.cast
   pk: 1
   fields:
-    nazev: PÅ™ednÃ­ Kopanina
+    nazev: Pøední Kopanina
     mesto: 1
 - model: main.cast
   pk: 2
   fields:
-    nazev: BranÃ­k
+    nazev: Braník
     mesto: 1
 - model: main.cast
   pk: 3
   fields:
-    nazev: ModÅ™any
+    nazev: Modøany
     mesto: 1
 - model: main.cast
   pk: 4
   fields:
-    nazev: HÃ¡je
+    nazev: Háje
     mesto: 1
 - model: main.cast
   pk: 5
   fields:
     nazev: Chodov
+    mesto: 1
+- model: main.cast
+  pk: 6
+  fields:
+    nazev: Nusle
+    mesto: 1
+- model: main.cast
+  pk: 7
+  fields:
+    nazev: Suchdol
+    mesto: 1
+- model: main.cast
+  pk: 8
+  fields:
+    nazev: Holešovice
+    mesto: 1
+- model: main.cast
+  pk: 9
+  fields:
+    nazev: Veleslavín
+    mesto: 1
+- model: main.cast
+  pk: 10
+  fields:
+    nazev: Nové Mìsto
+    mesto: 1
+- model: main.cast
+  pk: 11
+  fields:
+    nazev: Zábìhlice
     mesto: 1
