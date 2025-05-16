@@ -4,4 +4,3 @@ httpx
 pyaml
 Pillow
 django-autocomplete-light
-git+https://github.com/gkuhn1/django-admin-multiupload.git
