@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load custom_filters %}
 {% include 'autocomplete_light/static.html' %}
+
 {% block extra_head %}
     {{ form.media }}
     <!-- Select2 -->
@@ -37,74 +38,104 @@
         .select2-selection__arrow {
             height: 100%;
         }
+
         body {
-        background-color: #f9f9f9;
-    }
+            background-color: #f9f9f9;
+        }
 
-    .form-label {
-        font-weight: 600;
-    }
+        .form-label {
+            font-weight: 600;
+        }
 
-    .card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        border-radius: 12px;
-    }
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 12px;
+        }
 
-    .card:hover {
-        transform: scale(1.01);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    }
+        .card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
 
-    .btn-outline-primary {
-        border-radius: 30px;
-    }
+        .btn-outline-primary {
+            border-radius: 30px;
+        }
 
-    .btn-success, .btn-secondary {
-        border-radius: 30px;
-        padding: 10px 30px;
-    }
+        .btn-success, .btn-secondary {
+            border-radius: 30px;
+            padding: 10px 30px;
+        }
 
-    .select2-container--default .select2-selection--single {
-        border-radius: 8px;
-        border-color: #ced4da;
-    }
+        .select2-container--default .select2-selection--single {
+            border-radius: 8px;
+            border-color: #ced4da;
+        }
 
-    .form-control, .select2-selection {
-        border-radius: 8px !important;
-    }
+        .form-control, .select2-selection {
+            border-radius: 8px !important;
+        }
 
-    .pagination .page-link {
-        border-radius: 10px;
-    }
+        .pagination .page-link {
+            border-radius: 10px;
+        }
 
-    .form-label {
-        margin-bottom: 0.4rem;
-    }
+        .form-label {
+            margin-bottom: 0.4rem;
+            display: block;
+            min-height: 1.5em;
+        }
 
-    input[type="text"], select {
-        min-height: 38px;
-    }
-    .select2-container {
-        display: block !important;
-        width: 100% !important;
-    }
+        input[type="text"], select {
+            min-height: 38px;
+        }
 
-    .form-label {
-        display: block;
-        min-height: 1.5em;
-    }
-    .card-img-top {
-        height: 300px;
-        object-fit: cover;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-        transition: transform 0.3s ease;
-    }
-    
-    .card:hover .card-img-top {
-        transform: scale(1.02);
-    }
+        .select2-container {
+            display: block !important;
+            width: 100% !important;
+        }
 
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .card-img-top {
+            transform: scale(1.02);
+        }
+
+        /* LIKE BUTTON */
+        .like-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 1.25rem;
+        }
+
+        .like-btn:not(.liked) {
+            color: #6c757d; /* šedá */
+        }
+
+        .like-btn.liked {
+            color: #dc3545; /* červená */
+        }
+
+        .like-btn .heart-icon {
+            stroke: currentColor;
+            fill: none;
+            transition: fill 0.3s, stroke 0.3s;
+        }
+
+        .like-btn.liked .heart-icon {
+            fill: currentColor;
+            stroke: currentColor;
+        }
 
     </style>
 
@@ -137,6 +168,39 @@
                     $('#id_min_cena').val(data.from);
                     $('#id_max_cena').val(data.to);
                 }
+            });
+        });
+
+        // AJAX Like Button
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = button.dataset.id;
+
+                    fetch(`/nemovitost/${id}/like/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.error){
+                            alert(data.error);
+                            return;
+                        }
+                        button.querySelector('.like-count').textContent = data.total_likes;
+
+                        if(data.liked){
+                            button.classList.add('liked');
+                        } else {
+                            button.classList.remove('liked');
+                        }
+                    })
+                    .catch(() => alert('Něco se pokazilo, zkuste to prosím znovu.'));
+                });
             });
         });
     </script>
@@ -192,9 +256,7 @@
     </div>
 {% endif %}
 
-
 {% if nemovitosti %}
-
     <div class="row">
         {% for nemovitost in nemovitosti %}
         <div class="col-md-4 mb-4 d-flex">
@@ -207,57 +269,62 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ nemovitost.nazev }}</h5>
                     <p class="mb-3"><strong>{{ nemovitost.cena|cz_intcomma }} Kč</strong></p>
-                    <a href="{% url 'detail' nemovitost.id %}" class="btn btn-outline-primary mt-auto">Detail</a>
+
+                    <div class="d-flex align-items-center mt-auto justify-content-between">
+                        <a href="{% url 'detail' nemovitost.id %}" class="btn btn-outline-primary">Detail</a>
+
+                        <button 
+                            class="like-btn {% if user.is_authenticated and nemovitost.is_liked %}liked{% endif %}" 
+                            data-id="{{ nemovitost.id }}" 
+                            aria-label="Přidat do oblíbených / Odebrat"
+                            title="Přidat do oblíbených / Odebrat"
+                        >
+                            <svg
+                                class="heart-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M20.8 4.6c-1.5-1.5-4-1.5-5.5 0l-.8.8-.8-.8c-1.5-1.5-4-1.5-5.5 0-1.6 1.6-1.6 4.2 0 5.8l6.3 6.3 6.3-6.3c1.6-1.6 1.6-4.2 0-5.8z"/>
+                            </svg>
+                            <span class="like-count">{{ nemovitost.oblibenanemovitost_set.count }}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        
         {% endfor %}
     </div>
 
-    <nav aria-label="Stránkování" class="mt-4">
-        <ul class="pagination justify-content-center">
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4">
+        <ul class="pagination pagination-lg">
             {% if nemovitosti.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="First">
-                        <span aria-hidden="true">&laquo;&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ nemovitosti.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ nemovitosti.previous_page_number }}{% if request.GET %}&amp;{{ request.GET.urlencode|safe }}{% endif %}">« Předchozí</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">« Předchozí</span></li>
             {% endif %}
 
-            {% for i in nemovitosti.paginator.page_range %}
-                {% if i == nemovitosti.number %}
-                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+            {% for page_num in nemovitosti.paginator.page_range %}
+                {% if page_num == nemovitosti.number %}
+                    <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
                 {% else %}
-                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if request.GET %}&amp;{{ request.GET.urlencode|safe }}{% endif %}">{{ page_num }}</a></li>
                 {% endif %}
             {% endfor %}
 
             {% if nemovitosti.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ nemovitosti.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ nemovitosti.paginator.num_pages }}" aria-label="Last">
-                        <span aria-hidden="true">&raquo;&raquo;</span>
-                    </a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ nemovitosti.next_page_number }}{% if request.GET %}&amp;{{ request.GET.urlencode|safe }}{% endif %}">Další »</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Další »</span></li>
             {% endif %}
         </ul>
     </nav>
 {% else %}
-    <p class="text-center mt-4">❌ Žádné nemovitosti neodpovídají zadaným filtrům.</p>
+    <p class="text-center text-muted fs-5 my-5">Žádné nemovitosti nebyly nalezeny.</p>
 {% endif %}
-
-<div class="text-center mt-4">
-    <a href="{% url 'home' %}" class="btn btn-secondary">Zpět na domovskou stránku</a>
-</div>
 {% endblock %}
-

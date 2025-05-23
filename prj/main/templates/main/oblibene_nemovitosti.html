@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+  {% if nemovitosti %}
+    {% for nemovitost in nemovitosti %}
+      <div class="nemovitost">
+        <h3>{{ nemovitost.nazev }}</h3>
+        <p>Cena: {{ nemovitost.cena }}</p>
+        <button class="like-btn" data-id="{{ nemovitost.id }}">
+          ❤️ <span class="like-count">{{ nemovitost.pocet_lajku }}</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Nemáte žádné oblíbené nemovitosti.</p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.like-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const id = button.dataset.id;
+    fetch(`/nemovitost/${id}/like/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      button.querySelector('.like-count').textContent = data.total_likes;
+      button.style.color = data.liked ? 'red' : 'black';
+    });
+  });
+});
+</script>
+{% endblock %}

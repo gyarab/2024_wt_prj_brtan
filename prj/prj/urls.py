@@ -40,6 +40,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # allauth login
     # like/unlike nemovitosti
     path('nemovitost/<int:nemovitost_id>/like/', views.toggle_like, name='toggle_like'),
+    path('oblibene_nemovitosti/', views.oblibene_nemovitosti_view, name='oblibene_nemovitosti'),
+
 ]
 
 # Nastavení pro nahrané obrázky

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs">
+    {% load socialaccount %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,12 +30,37 @@
             color: #dc3545 !important;
         }
 
+        .dropdown-menu a {
+            color: #000;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f8f9fa;
+        }
+
         body {
             background-color: #f9f9f9;
         }
 
         .container {
             padding-top: 2rem;
+        }
+
+        .btn-login {
+            background-color: #4285F4;
+            color: white !important;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .btn-login:hover {
+            background-color: #357ae8;
+        }
+
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
         }
     </style>
 
@@ -49,15 +76,28 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-3">
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Domů</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'filtrovani' %}active{% endif %}" href="{% url 'filtrovani' %}">Filtrace</a>
                 </li>
-                {# Nabídky záložka byla odstraněna #}
             </ul>
+
+            {% if user.is_authenticated %}
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user.get_full_name|default:user.username }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{% url 'oblibene_nemovitosti' %}">Uložené nemovitosti</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account_logout' %}">Odhlásit se</a></li>
+                </ul>
+            </div>
+            {% else %}
+            <a href="{% provider_login_url 'google' %}" class="btn-login">Přihlásit se</a>
+            {% endif %}
         </div>
     </div>
 </nav>
