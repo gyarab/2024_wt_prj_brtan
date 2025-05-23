@@ -3,6 +3,34 @@ from django.shortcuts import render
 from .models import Nemovitost, Mesto, Cast
 from .forms import FiltrForm
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from .models import Nemovitost, OblibenaNemovitost
+
+@login_required
+@require_POST
+def toggle_like(request, nemovitost_id):
+    user = request.user
+    try:
+        nemovitost = Nemovitost.objects.get(pk=nemovitost_id)
+    except Nemovitost.DoesNotExist:
+        return JsonResponse({'error': 'Nemovitost nenalezena'}, status=404)
+
+    oblibena, created = OblibenaNemovitost.objects.get_or_create(
+        uzivatel=user, nemovitost=nemovitost
+    )
+
+    if not created:
+        oblibena.delete()
+        liked = False
+    else:
+        liked = True
+
+    return JsonResponse({
+        'liked': liked,
+        'total_likes': nemovitost.lajky.count(),
+    })
 
 def home(request):
     nove_nabidky = Nemovitost.objects.order_by('-id')[:5]

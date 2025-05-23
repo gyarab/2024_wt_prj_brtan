@@ -4,3 +4,7 @@ httpx
 pyaml
 Pillow
 django-autocomplete-light
+django-allauth
+requests
+PyJWT
+cryptography

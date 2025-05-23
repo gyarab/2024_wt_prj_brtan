@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from django.conf import settings
 
 
 class Klient(models.Model):
@@ -74,6 +74,16 @@ class Nemovitost(models.Model):
     class Meta:
         verbose_name_plural = "Nemovitosti"
         ordering = ['-id']  # Seřazení podle ID sestupně ve správě admina
+    def pocet_lajku(self):
+        return self.lajky.count()
+    
+class OblibenaNemovitost(models.Model):
+    uzivatel = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nemovitost = models.ForeignKey('Nemovitost', on_delete=models.CASCADE, related_name='lajky')
+    vytvoreno = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('uzivatel', 'nemovitost')
 
 class Obrazek(models.Model):
     nemovitost = models.ForeignKey(Nemovitost, related_name='obrazky', on_delete=models.CASCADE)

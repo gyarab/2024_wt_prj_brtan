@@ -15,9 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 from main import views
 from main.autocomplete import MestoAutocomplete, CastAutocomplete
@@ -35,6 +36,10 @@ urlpatterns = [
 
     # Admin rozhraní
     path('admin/', admin.site.urls),
+
+    path('accounts/', include('allauth.urls')),  # allauth login
+    # like/unlike nemovitosti
+    path('nemovitost/<int:nemovitost_id>/like/', views.toggle_like, name='toggle_like'),
 ]
 
 # Nastavení pro nahrané obrázky
