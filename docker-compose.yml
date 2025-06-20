@@ -1,51 +1,51 @@
-services:
-  web:
-    restart: unless-stopped
-    build: .
-    pull_policy: build
-    # ports:
-    #   - 8000:80
-    volumes:
-      - ./prj:/app
+  services:
+    web:
+      restart: unless-stopped
+      build: .
+      pull_policy: build
+      # ports:
+      #   - 8000:80
+      volumes:
+        - ./prj:/app
 
-    labels:
-      - "traefik.enable=true"
+      labels:
+        - "traefik.enable=true"
 
-      - "traefik.http.routers.wt-vch-http.rule=Host(`vch.gawt.dtcloud.cz`)"
-      - "traefik.http.routers.wt-vch-http.entrypoints=web"
-      - "traefik.http.routers.wt-vch-http.middlewares=wt-vch-redirect-https@docker"
+        - "traefik.http.routers.wt-mb-http.rule=Host(`mb.gawt.dtcloud.cz`)"
+        - "traefik.http.routers.wt-mb-http.entrypoints=web"
+        - "traefik.http.routers.wt-mb-http.middlewares=wt-mb-redirect-https@docker"
 
-      - "traefik.http.middlewares.wt-vch-redirect-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.wt-vch-redirect-https.redirectscheme.permanent=true"
+        - "traefik.http.middlewares.wt-mb-redirect-https.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.wt-mb-redirect-https.redirectscheme.permanent=true"
 
-      - "traefik.http.routers.wt-vch-https.rule=Host(`vch.gawt.dtcloud.cz`)"
-      - "traefik.http.routers.wt-vch-https.entrypoints=websecure"
-      - "traefik.http.routers.wt-vch-https.tls=true"
-      - "traefik.http.routers.wt-vch-https.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.wt-mb-https.rule=Host(`mb.gawt.dtcloud.cz`)"
+        - "traefik.http.routers.wt-mb-https.entrypoints=websecure"
+        - "traefik.http.routers.wt-mb-https.tls=true"
+        - "traefik.http.routers.wt-mb-https.tls.certresolver=letsencrypt"
 
-  static:
-    image: nginx:alpine
-    restart: unless-stopped
+    static:
+      image: nginx:alpine
+      restart: unless-stopped
 
-    volumes:
-      - ./prj/staticfiles:/usr/share/nginx/html/static:ro
+      volumes:
+        - ./prj/staticfiles:/usr/share/nginx/html/static:ro
 
-    labels:
-      - "traefik.enable=true"
+      labels:
+        - "traefik.enable=true"
 
-      - "traefik.http.routers.wt-vch-static-http.rule=Host(`vch.gawt.dtcloud.cz`) && PathPrefix(`/static`)"
-      - "traefik.http.routers.wt-vch-static-http.entrypoints=web"
-      - "traefik.http.routers.wt-vch-static-http.middlewares=wt-vch-static-redirect-https@docker"
+        - "traefik.http.routers.wt-mb-static-http.rule=Host(`mb.gawt.dtcloud.cz`) && PathPrefix(`/static`)"
+        - "traefik.http.routers.wt-mb-static-http.entrypoints=web"
+        - "traefik.http.routers.wt-mb-static-http.middlewares=wt-mb-static-redirect-https@docker"
 
-      - "traefik.http.middlewares.wt-vch-static-redirect-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.wt-vch-static-redirect-https.redirectscheme.permanent=true"
+        - "traefik.http.middlewares.wt-mb-static-redirect-https.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.wt-mb-static-redirect-https.redirectscheme.permanent=true"
 
-      - "traefik.http.routers.wt-vch-static-https.rule=Host(`vch.gawt.dtcloud.cz`) && PathPrefix(`/static`)"
-      - "traefik.http.routers.wt-vch-static-https.entrypoints=websecure"
-      - "traefik.http.routers.wt-vch-static-https.tls=true"
-      - "traefik.http.routers.wt-vch-static-https.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.wt-mb-static-https.rule=Host(`mb.gawt.dtcloud.cz`) && PathPrefix(`/static`)"
+        - "traefik.http.routers.wt-mb-static-https.entrypoints=websecure"
+        - "traefik.http.routers.wt-mb-static-https.tls=true"
+        - "traefik.http.routers.wt-mb-static-https.tls.certresolver=letsencrypt"
 
-networks:
-  default:
-    name: proxy
-    external: true
+  networks:
+    default:
+      name: proxy
+      external: true
